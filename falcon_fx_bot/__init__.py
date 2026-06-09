@@ -1,0 +1,2 @@
+"""Falcon FX Bot package."""
+

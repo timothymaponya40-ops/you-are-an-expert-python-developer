@@ -1,0 +1,17 @@
+flask
+requests
+yfinance
+pandas
+numpy
+python-dotenv
+apscheduler
+fxcmpy
+MetaTrader5
+streamlit
+plotly
+twilio
+pytz
+sqlalchemy
+scikit-learn
+torch
+
