@@ -92,6 +92,7 @@ class Config:
     oanda_environment: str = os.getenv("OANDA_ENVIRONMENT", "practice").lower()
     fxcm_token: str = os.getenv("FXCM_TOKEN", "")
     fxcm_server: str = os.getenv("FXCM_SERVER", "demo")
+    mt5_broker_preset: str = os.getenv("MT5_BROKER_PRESET", "generic").lower()
     mt5_login: int = _int("MT5_LOGIN", 0)
     mt5_password: str = os.getenv("MT5_PASSWORD", "")
     mt5_server: str = os.getenv("MT5_SERVER", "Exness-MT5Real")
@@ -108,6 +109,27 @@ class Config:
     smtp_password: str = os.getenv("SMTP_PASSWORD", "")
     email_from: str = os.getenv("EMAIL_FROM", "")
     email_to: str = os.getenv("EMAIL_TO", "")
+
+    @property
+    def mt5_effective_server(self) -> str:
+        if os.getenv("MT5_SERVER"):
+            return self.mt5_server
+        presets = {
+            "generic": self.mt5_server,
+            "exness": "Exness-MT5Trial",
+            "exness_demo": "Exness-MT5Trial",
+            "xm": "XMGlobal-MT5",
+            "xm_demo": "XMGlobal-Demo",
+            "hfm": "HFMarkets-Live 3",
+            "hfm_demo": "HFMarkets-Demo",
+            "rcg": "RCGMarkets-Demo",
+            "rcgmarkets": "RCGMarkets-Demo",
+            "blackstone": "Blackstone-Demo",
+            "blackstone_demo": "Blackstone-Demo",
+            "deriv": "Deriv-Demo",
+            "icmarkets": "ICMarketsSC-Demo",
+        }
+        return presets.get(self.mt5_broker_preset, self.mt5_server)
 
     @property
     def oanda_url(self) -> str:

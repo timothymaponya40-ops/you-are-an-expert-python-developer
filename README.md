@@ -57,6 +57,93 @@ MetaTrader 5 brokers:
 - HFM / HF Markets MT5 server requested for this configuration: `HFMarkets-Live 3`.
 - Blackstone Futures is a South African broker with MT5 support; use the MT5 credentials and server name supplied in the client portal.
 
+### MT5 Demo Testing With SA-Friendly Brokers
+
+The bot works with any broker that gives you a MetaTrader 5 account. That includes RCG Markets, Exness, XM, HFM, Blackstone Futures, Deriv, IC Markets and many others. You do not connect the bot to the broker website directly; you create a demo account on the broker website, then use the MT5 login details in `.env`.
+
+General MT5 demo process:
+
+1. Open a demo account with the broker.
+2. Choose MetaTrader 5, not MT4.
+3. Copy the MT5 login number, password, and server name from the broker portal.
+4. Install the broker's MT5 desktop terminal or the official MetaTrader 5 terminal.
+5. Log into the demo account in MT5 first and confirm you can see demo balance and prices.
+6. Put the same credentials into `.env`.
+7. Keep `LIVE_TRADING=false` for local testing.
+8. Switch to `LIVE_TRADING=true` only for demo execution after you have confirmed everything is correct.
+
+RCG Markets:
+- Official site: [RCG Markets](https://www.rcgmarkets.com/)
+- Demo registration: [RCG Markets demo portal](https://portal.rcgmarkets.com/register-demo)
+- RCG Markets advertises MT4/MT5 accounts and FSCA regulation on its official site.
+- Example `.env`:
+
+```env
+BROKER=mt5
+LIVE_TRADING=true
+MT5_BROKER_PRESET=rcgmarkets
+MT5_LOGIN=12345678
+MT5_PASSWORD=your-demo-password
+MT5_SERVER=RCGMarkets-Demo
+```
+
+Exness:
+- Official site: [Exness](https://www.exness.com/)
+- Exness says new Personal Areas include MT5 real and demo accounts, and demo accounts use virtual equity.
+- Example `.env`:
+
+```env
+BROKER=mt5
+LIVE_TRADING=true
+MT5_BROKER_PRESET=exness_demo
+MT5_LOGIN=12345678
+MT5_PASSWORD=your-demo-password
+MT5_SERVER=Exness-MT5Trial
+```
+
+If your Exness portal shows a different server such as `Exness-MT5Real` or `Exness-MT5Trial2`, use exactly what Exness shows.
+
+XM:
+- Official help: [XM demo and platform FAQ](https://www.xm.com/help-center/trading-accounts/faq-what-are-the-differences-between-a-demo-and-a-real-account)
+- XM notes that multi-asset trading is available on MT5 accounts.
+- Example `.env`:
+
+```env
+BROKER=mt5
+LIVE_TRADING=true
+MT5_BROKER_PRESET=xm_demo
+MT5_LOGIN=12345678
+MT5_PASSWORD=your-demo-password
+MT5_SERVER=XMGlobal-Demo
+```
+
+HFM:
+- Official MT5 page: [HFM MT5 WebTerminal](https://www.hfm.com/hf/platforms/mt5-webterminal)
+- HFM provides MT5 WebTerminal and demo account access.
+- Example `.env`:
+
+```env
+BROKER=mt5
+LIVE_TRADING=true
+MT5_BROKER_PRESET=hfm_demo
+MT5_LOGIN=12345678
+MT5_PASSWORD=your-demo-password
+MT5_SERVER=HFMarkets-Demo
+```
+
+Generic MT5 broker:
+
+```env
+BROKER=mt5
+LIVE_TRADING=true
+MT5_BROKER_PRESET=generic
+MT5_LOGIN=12345678
+MT5_PASSWORD=your-demo-password
+MT5_SERVER=Exact-Server-Name-From-Broker
+```
+
+The server name must match exactly, including spaces, hyphens, and capitalization. If MT5 desktop cannot log in, the Python bot cannot log in either.
+
 ## Safety and Compliance Controls
 
 - `LIVE_TRADING=false` prevents real broker execution and uses dry-run order logging.
@@ -91,4 +178,3 @@ timestamp,currency,title
 ## Notes
 
 The dashboard shows account balance, open trades, today’s P&L, win rate, weekly trade count, live prices for configured instruments, trade history, equity curve, and an emergency close button.
-

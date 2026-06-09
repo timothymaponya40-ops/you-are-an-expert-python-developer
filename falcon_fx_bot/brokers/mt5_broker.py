@@ -29,9 +29,9 @@ class MT5Broker(Broker):
         if not initialized:
             raise RuntimeError(f"MT5 initialize failed: {mt5.last_error()}")
         if self.config.mt5_login:
-            authorized = mt5.login(self.config.mt5_login, password=self.config.mt5_password, server=self.config.mt5_server)
+            authorized = mt5.login(self.config.mt5_login, password=self.config.mt5_password, server=self.config.mt5_effective_server)
             if not authorized:
-                raise RuntimeError(f"MT5 login failed for server {self.config.mt5_server}: {mt5.last_error()}")
+                raise RuntimeError(f"MT5 login failed for server {self.config.mt5_effective_server}: {mt5.last_error()}")
         self.connected = True
 
     def get_balance(self) -> float:
@@ -133,7 +133,7 @@ class MT5Broker(Broker):
         return info._asdict()
 
     def get_account_summary(self) -> Dict[str, Any]:
-        return {"account": self.get_account_info(), "open_trades": self.get_open_trades(), "server": self.config.mt5_server}
+        return {"account": self.get_account_info(), "open_trades": self.get_open_trades(), "server": self.config.mt5_effective_server}
 
     def _symbol(self, pair: str) -> str:
         overrides = {
@@ -147,4 +147,3 @@ class MT5Broker(Broker):
         if pair == "XAUUSD":
             return round(max(units / 100.0, 0.01), 2)
         return round(max(units / 100000.0, 0.01), 2)
-
